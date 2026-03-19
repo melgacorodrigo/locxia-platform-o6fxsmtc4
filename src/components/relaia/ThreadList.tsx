@@ -5,7 +5,9 @@ import { Badge } from '@/components/ui/badge'
 import { AlertCircle, CheckCircle2, MessageSquare } from 'lucide-react'
 
 export default function ThreadList() {
-  const { threads, activeThreadId, setActiveThreadId } = useRelaiaStore()
+  const threads = useRelaiaStore((state) => state.threads)
+  const activeThreadId = useRelaiaStore((state) => state.activeThreadId)
+  const setActiveThreadId = useRelaiaStore((state) => state.setActiveThreadId)
 
   return (
     <Card className="h-full flex flex-col shadow-sm border-muted bg-background">

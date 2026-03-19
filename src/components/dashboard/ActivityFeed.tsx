@@ -6,7 +6,7 @@ import { DashboardController } from '@/controllers/dashboardController'
 import { Bot, Shield, FileText, Database } from 'lucide-react'
 
 export default function ActivityFeed() {
-  const { tenantId } = useMainStore()
+  const tenantId = useMainStore((state) => state.tenantId)
   const [activities, setActivities] = useState<any[]>([])
 
   useEffect(() => {

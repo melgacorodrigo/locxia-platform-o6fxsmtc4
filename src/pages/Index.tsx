@@ -6,6 +6,8 @@ import RecentLeads from '@/components/dashboard/RecentLeads'
 import ErpSyncWidget from '@/components/dashboard/ErpSyncWidget'
 import PropertyContractList from '@/components/dashboard/PropertyContractList'
 import ActivityFeed from '@/components/dashboard/ActivityFeed'
+import PipelineChart from '@/components/dashboard/PipelineChart'
+import AiInsights from '@/components/dashboard/AiInsights'
 import { Button } from '@/components/ui/button'
 
 export default function Index() {
@@ -30,6 +32,16 @@ export default function Index() {
 
       {/* Overview KPIs */}
       <KpiGrid />
+
+      {/* Visual Pipeline & Insights */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <PipelineChart />
+        </div>
+        <div className="lg:col-span-1">
+          <AiInsights />
+        </div>
+      </div>
 
       {/* Main Trail Stepper */}
       <RentalTrail />

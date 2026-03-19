@@ -5,7 +5,7 @@ import useMainStore from '@/stores/useMainStore'
 import { DashboardController } from '@/controllers/dashboardController'
 
 export default function ErpSyncWidget() {
-  const { tenantId } = useMainStore()
+  const tenantId = useMainStore((state) => state.tenantId)
   const [data, setData] = useState<any>(null)
 
   useEffect(() => {

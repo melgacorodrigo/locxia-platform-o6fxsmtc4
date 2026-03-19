@@ -5,9 +5,12 @@ export const DashboardController = {
     return {
       tenantId,
       totalLeads: 1245,
-      activeContracts: 312,
-      propertiesAvailable: 150,
-      pendingCreditRequests: 12,
+      activeChats: 42,
+      relaiaPendencies: 5,
+      creditApprovals: 312,
+      vacant: 45,
+      leased: 105,
+      delinquencyRate: 2.4,
     }
   },
 

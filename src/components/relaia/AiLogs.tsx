@@ -4,7 +4,8 @@ import { BrainCircuit, Check, Zap, Webhook, FileText } from 'lucide-react'
 import useRelaiaStore from '@/stores/useRelaiaStore'
 
 export default function AiLogs() {
-  const { logs, activeThreadId } = useRelaiaStore()
+  const logs = useRelaiaStore((state) => state.logs)
+  const activeThreadId = useRelaiaStore((state) => state.activeThreadId)
 
   const displayLogs = activeThreadId ? logs.filter((l) => l.thread_id === activeThreadId) : logs
 

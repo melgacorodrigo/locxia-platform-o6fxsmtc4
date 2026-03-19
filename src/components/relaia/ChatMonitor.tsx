@@ -1,10 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Switch } from '@/components/ui/switch'
-import { Label } from '@/components/ui/label'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Send, Bot, User, UserCog, Info } from 'lucide-react'
+import { Send, Bot, User, UserCog, Info, ShieldAlert, ArrowLeftRight } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import useRelaiaStore from '@/stores/useRelaiaStore'
 import { Badge } from '@/components/ui/badge'
@@ -16,6 +14,14 @@ export default function ChatMonitor() {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const thread = threads.find((t) => t.id === activeThreadId)
+
+  // Real-Time Simulation (mocking WebSockets)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // In a real scenario, we'd listen to WS events here and dispatch to Zustand
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -35,11 +41,6 @@ export default function ChatMonitor() {
   }
 
   const isHumanActive = thread.state === 'WAITING_HUMAN' || thread.state === 'HUMAN_OVERRIDE'
-
-  const handleToggle = (checked: boolean) => {
-    if (checked) startHumanOverride(thread.id)
-    else resolveHumanOverride(thread.id)
-  }
 
   const handleSend = () => {
     if (!inputText.trim()) return
@@ -63,19 +64,28 @@ export default function ChatMonitor() {
             {thread.state}
           </Badge>
         </CardTitle>
-        <div className="flex items-center space-x-3 bg-muted/20 border px-3 py-1.5 rounded-full shadow-sm">
-          <Label
-            htmlFor="human-mode"
-            className={`text-xs uppercase tracking-wider ${isHumanActive ? 'text-destructive font-bold' : 'text-muted-foreground'}`}
-          >
-            {isHumanActive ? 'Human Override Ativo' : 'IA Autônoma'}
-          </Label>
-          <Switch
-            id="human-mode"
-            checked={isHumanActive}
-            onCheckedChange={handleToggle}
-            className="data-[state=checked]:bg-destructive"
-          />
+        <div className="flex items-center gap-2">
+          {!isHumanActive ? (
+            <Button
+              size="sm"
+              variant="destructive"
+              onClick={() => startHumanOverride(thread.id)}
+              className="text-xs font-bold tracking-wider"
+            >
+              <ShieldAlert className="w-4 h-4 mr-2" />
+              ASSUMIR ATENDIMENTO
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => resolveHumanOverride(thread.id)}
+              className="text-xs font-bold tracking-wider text-emerald-600 border-emerald-600 hover:bg-emerald-50"
+            >
+              <ArrowLeftRight className="w-4 h-4 mr-2" />
+              DEVOLVER PARA IA
+            </Button>
+          )}
         </div>
       </CardHeader>
 

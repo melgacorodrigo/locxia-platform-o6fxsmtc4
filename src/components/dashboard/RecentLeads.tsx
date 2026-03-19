@@ -14,7 +14,7 @@ import useMainStore from '@/stores/useMainStore'
 import { DashboardController } from '@/controllers/dashboardController'
 
 export default function RecentLeads() {
-  const { tenantId } = useMainStore()
+  const tenantId = useMainStore((state) => state.tenantId)
   const [leads, setLeads] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 

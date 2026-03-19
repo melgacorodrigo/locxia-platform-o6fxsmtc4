@@ -14,7 +14,7 @@ import useMainStore from '@/stores/useMainStore'
 import { DashboardController } from '@/controllers/dashboardController'
 
 export default function PropertyContractList() {
-  const { tenantId } = useMainStore()
+  const tenantId = useMainStore((state) => state.tenantId)
   const [properties, setProperties] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 

@@ -10,7 +10,16 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
 } from '@/components/ui/sidebar'
-import { LayoutDashboard, Cable, Wallet, Bot, Network, Building2 } from 'lucide-react'
+import {
+  LayoutDashboard,
+  Cable,
+  Wallet,
+  Bot,
+  Network,
+  Building2,
+  ShieldAlert,
+  Building,
+} from 'lucide-react'
 
 export default function AppSidebar() {
   const location = useLocation()
@@ -18,7 +27,10 @@ export default function AppSidebar() {
   const groups = [
     {
       label: 'Operacional',
-      items: [{ name: 'Dashboard 360°', path: '/', icon: LayoutDashboard }],
+      items: [
+        { name: 'Dashboard 360°', path: '/', icon: LayoutDashboard },
+        { name: 'Portfolio Imóveis', path: '/portfolio', icon: Building },
+      ],
     },
     {
       label: 'Financeiro',
@@ -26,7 +38,10 @@ export default function AppSidebar() {
     },
     {
       label: 'IA & Insights',
-      items: [{ name: 'RelAiA Core', path: '/relaia', icon: Bot }],
+      items: [
+        { name: 'RelAiA Core', path: '/relaia', icon: Bot },
+        { name: 'Auditoria & Logs', path: '/audit', icon: ShieldAlert },
+      ],
     },
     {
       label: 'Configurações',

@@ -1,62 +1,51 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { BrainCircuit, Check, Zap } from 'lucide-react'
-
-const aiLogs = [
-  {
-    time: '10:01:02',
-    action: 'Intent Classification',
-    result: 'Interest_Property_Rent',
-    confidence: '0.98',
-  },
-  {
-    time: '10:01:05',
-    action: 'Data Core Vector Query',
-    result: 'Property_Found_ID_402',
-    confidence: '1.00',
-  },
-  {
-    time: '10:02:10',
-    action: 'FIALO Credit Predict',
-    result: 'Score_A_Estimated',
-    confidence: '0.85',
-  },
-  {
-    time: '10:02:12',
-    action: 'Decision Logic Trigger',
-    result: 'Schedule_Visit_Prompt',
-    confidence: '0.95',
-  },
-]
+import { BrainCircuit, Check, Zap, Webhook, FileText } from 'lucide-react'
+import useRelaiaStore from '@/stores/useRelaiaStore'
 
 export default function AiLogs() {
+  const { logs, activeThreadId } = useRelaiaStore()
+
+  const displayLogs = activeThreadId ? logs.filter((l) => l.thread_id === activeThreadId) : logs
+
+  const getIcon = (type: string) => {
+    if (type === 'LOGS_WEBHOOKS') return <Webhook className="h-3.5 w-3.5 text-blue-500" />
+    if (type === 'LOGS_RELAIA') return <FileText className="h-3.5 w-3.5 text-amber-500" />
+    return <Zap className="h-3.5 w-3.5 text-primary" />
+  }
+
   return (
-    <Card className="h-full flex flex-col bg-muted/10 shadow-sm">
+    <Card className="h-full flex flex-col bg-muted/5 shadow-sm border-muted">
       <CardHeader className="py-4 border-b bg-background">
-        <CardTitle className="text-lg flex items-center gap-2 text-primary">
+        <CardTitle className="text-lg flex items-center gap-2 text-primary font-semibold">
           <BrainCircuit className="h-5 w-5" />
-          Decision Layer (Logs)
+          Data Core Logs
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 p-0">
+      <CardContent className="flex-1 p-0 overflow-hidden">
         <ScrollArea className="h-full p-4">
-          <div className="space-y-4 font-mono text-xs">
-            {aiLogs.map((log, i) => (
+          <div className="space-y-3 font-mono text-xs pb-4">
+            {displayLogs.length === 0 && (
+              <div className="text-center text-muted-foreground mt-10">
+                Nenhum log para esta conversa.
+              </div>
+            )}
+            {displayLogs.map((log) => (
               <div
-                key={i}
-                className="bg-background border border-muted rounded-lg p-4 flex flex-col gap-3 shadow-sm hover:border-primary/40 transition-colors group"
+                key={log.id}
+                className="bg-background border border-muted rounded-lg p-3 flex flex-col gap-2 shadow-sm hover:border-primary/40 transition-colors group"
               >
-                <div className="flex justify-between items-center text-muted-foreground border-b pb-2">
-                  <span className="flex items-center gap-1">
-                    <Zap className="h-3 w-3 text-primary" /> {log.time}
+                <div className="flex justify-between items-center text-muted-foreground border-b pb-1.5">
+                  <span className="flex items-center gap-1.5 font-semibold">
+                    {getIcon(log.type)} {log.time}
                   </span>
-                  <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-md font-semibold tracking-wider">
+                  <span className="text-[9px] bg-muted px-1.5 py-0.5 rounded uppercase tracking-wider">
                     Conf: {log.confidence}
                   </span>
                 </div>
-                <div className="text-foreground font-semibold text-sm">{log.action}</div>
-                <div className="flex items-center gap-1.5 text-emerald-500 bg-emerald-500/10 px-2 py-1.5 rounded-md w-fit">
-                  <Check className="h-3.5 w-3.5" /> {log.result}
+                <div className="text-foreground font-medium">{log.action}</div>
+                <div className="flex items-center gap-1.5 text-emerald-600 bg-emerald-500/10 px-2 py-1 rounded w-fit text-[11px]">
+                  <Check className="h-3 w-3" /> {log.result}
                 </div>
               </div>
             ))}

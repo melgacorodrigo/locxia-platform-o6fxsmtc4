@@ -1,3 +1,4 @@
+import { DataCoreModule } from './DataCore'
 import { RealEstateModule } from './RealEstate'
 import { FialoModule } from './Fialo'
 import { RelAiAModule } from './RelAiA'
@@ -14,6 +15,7 @@ import { IntegrationsManagerModule } from './IntegrationsManager'
  */
 export const initModules = () => {
   const modules = [
+    DataCoreModule, // Central Data Core must initialize first
     RealEstateModule,
     FialoModule,
     RelAiAModule,

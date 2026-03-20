@@ -1,4 +1,5 @@
 export type CoreEventName =
+  // Original Events
   | 'NEW_LEAD'
   | 'UPDATE_LEAD'
   | 'NEW_IMOVEL'
@@ -24,6 +25,20 @@ export type CoreEventName =
   | 'VISTORIA_CONCLUDED'
   | 'FINANCIAL_UPDATE'
   | 'INTEGRATION_ERROR'
+  // AI Brain Specific Events
+  | 'lead_novo'
+  | 'lead_sem_atendimento'
+  | 'documento_recebido'
+  | 'doc_invalido'
+  | 'credito_solicitado'
+  | 'credito_aprovado'
+  | 'credito_reprovado'
+  | 'fraude_detectada'
+  | 'vistoria_concluida'
+  | 'inadimplencia'
+  | 'mensagem_whatsapp'
+  | 'override_humano'
+  | 'override_resolvido'
 
 type Listener = (payload: any) => void
 

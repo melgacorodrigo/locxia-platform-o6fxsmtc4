@@ -9,6 +9,7 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
+  SidebarMenuBadge,
 } from '@/components/ui/sidebar'
 import {
   LayoutDashboard,
@@ -19,10 +20,13 @@ import {
   Building2,
   ShieldAlert,
   Building,
+  BrainCircuit,
 } from 'lucide-react'
+import useAIBrainStore from '@/stores/useAIBrainStore'
 
 export default function AppSidebar() {
   const location = useLocation()
+  const unreadInsights = useAIBrainStore((state) => state.getUnreadCount())
 
   const groups = [
     {
@@ -37,8 +41,14 @@ export default function AppSidebar() {
       items: [{ name: 'FIALO & Finanças', path: '/finance', icon: Wallet }],
     },
     {
-      label: 'IA & Insights',
+      label: 'IA & Inteligência',
       items: [
+        {
+          name: 'Central de Insights',
+          path: '/insights',
+          icon: BrainCircuit,
+          badge: unreadInsights > 0 ? unreadInsights : undefined,
+        },
         { name: 'RelAiA Core', path: '/relaia', icon: Bot },
         { name: 'Auditoria & Logs', path: '/audit', icon: ShieldAlert },
       ],
@@ -70,7 +80,10 @@ export default function AppSidebar() {
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton
                       asChild
-                      isActive={location.pathname === item.path}
+                      isActive={
+                        location.pathname === item.path ||
+                        (item.path === '/insights' && location.pathname.startsWith('/insights'))
+                      }
                       tooltip={item.name}
                     >
                       <Link to={item.path}>
@@ -78,6 +91,11 @@ export default function AppSidebar() {
                         <span>{item.name}</span>
                       </Link>
                     </SidebarMenuButton>
+                    {item.badge && (
+                      <SidebarMenuBadge className="bg-primary text-primary-foreground">
+                        {item.badge}
+                      </SidebarMenuBadge>
+                    )}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>

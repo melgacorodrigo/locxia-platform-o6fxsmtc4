@@ -1,3 +1,5 @@
+export type UserRole = 'admin' | 'gestor' | 'atendente' | 'analista_fialo' | 'suporte' | 'IA'
+
 export interface BaseEntity {
   id: string
   tenant_id: string
@@ -16,17 +18,19 @@ export interface Tenant {
   created_at: string
 }
 export interface TenantSettings extends BaseEntity {
+  crypto_key: string
+  webhook_secret: string
   config: Record<string, any>
 }
 export interface TenantUser extends BaseEntity {
   user_id: string
-  role: string
+  role: UserRole
 }
 
 // People entities
 export interface User extends BaseEntity {
   email: string
-  role: 'admin' | 'manager' | 'broker'
+  role: UserRole
 }
 export interface Pessoa extends BaseEntity {
   name: string
@@ -242,9 +246,31 @@ export interface Auditoria extends BaseEntity {
   user_id?: string
   action: string
   target_entity?: string
+  valor_antes?: any
+  valor_depois?: any
+  ip_origin?: string
   details?: Record<string, any>
   payload?: any
   metadata?: any
+}
+export interface LogIa extends BaseEntity {
+  thread_id: string
+  decision: string
+  reasoning_context: string
+  token_usage: number
+  confidence: number
+}
+export interface LogHumanOverride extends BaseEntity {
+  thread_id: string
+  user_id: string
+  reason: string
+}
+export interface SecurityAlert extends BaseEntity {
+  type: 'FAILED_LOGIN' | 'CROSS_TENANT_ATTEMPT' | 'FRAUD_SUSPICION' | 'RATE_LIMIT_EXCEEDED'
+  message: string
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  ip_origin: string
+  resolved: boolean
 }
 export interface LogsIa extends Auditoria {}
 export interface LogsIntegracao extends Auditoria {}

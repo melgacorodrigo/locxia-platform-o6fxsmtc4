@@ -25,6 +25,7 @@ export type CoreEventName =
   | 'VISTORIA_CONCLUDED'
   | 'FINANCIAL_UPDATE'
   | 'INTEGRATION_ERROR'
+  | 'SECURITY_ALERT'
   // AI Brain Specific Events
   | 'lead_novo'
   | 'lead_sem_atendimento'

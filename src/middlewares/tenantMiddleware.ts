@@ -1,20 +1,25 @@
 /**
  * Tenant Isolation Middleware
  * Ensures that every outgoing request is tagged with the active tenant ID,
- * preventing cross-tenant data leakage.
+ * preventing cross-tenant data leakage, and injects origin headers.
  */
 
 export function applyTenantMiddleware(headers: Headers): Headers {
-  // Simulates fetching the active tenant ID
-  // In a real scenario, this is managed securely in the session or Zustand store
   const tenantId = localStorage.getItem('locxia_active_tenant') || 't1'
 
   headers.set('X-Tenant-ID', tenantId)
 
+  // Inject origin for security validation
+  if (typeof window !== 'undefined') {
+    headers.set('X-Origin', window.location.origin)
+  }
+
   return headers
 }
 
-export function extractTenantId(req: Request): string {
-  // Placeholder for backend/gateway extracting tenant ID from request
-  return req.headers.get('X-Tenant-ID') || 'unknown'
+export function extractTenantId(headers: Headers | Request): string {
+  if (headers instanceof Headers) {
+    return headers.get('X-Tenant-ID') || 'unknown'
+  }
+  return headers.headers.get('X-Tenant-ID') || 'unknown'
 }
